@@ -1,0 +1,1 @@
+browserify main.ts --debug -p tsify > bundle.js
