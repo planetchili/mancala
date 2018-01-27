@@ -1,17 +1,5 @@
 import * as $ from "jquery";
-
-class Test
-{
-    private msg : string;
-    constructor( msg : string )
-    {
-        this.msg = msg;
-    }
-    public Do() : void
-    {
-        $("#shame").text(this.msg);
-    }
-}
+import {Test} from "./Test";
 
 $(document).ready(() =>
 {
