@@ -4,5 +4,9 @@
         "target": "es2015",
         "module": "commonjs",
         "moduleResolution":"node"
-    }
+    },
+    "include":
+    [
+        "spec/*.ts"
+    ]
 }
