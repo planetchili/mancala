@@ -9,7 +9,7 @@
             "request": "launch",
             "name": "Launch Chrome",
             "url": "http://localhost/tsbugger/index.html",
-            "webRoot": "${workspaceRoot}/..",
+            "webRoot": "${workspaceRoot}",
             "disableNetworkCache": true,
             "sourceMaps": true
         }
