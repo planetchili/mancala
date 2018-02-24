@@ -1,0 +1,57 @@
+html, body
+{
+	height: 100%;
+}
+
+body
+{
+	margin: 0px;
+}
+
+p
+{
+	padding: 2px;
+	margin: 4px;
+}
+
+h1, h2
+{
+	margin: 0px;
+	color: seagreen;
+}
+
+#main
+{
+	padding: 5px;
+	margin: 5px;
+}
+
+#overlay
+{
+	visibility: hidden;
+	position: fixed;
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+	background-color: rgba(0, 0, 0, .2);
+	
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+#overlay-row
+{
+	width: auto;
+}
+
+#window
+{
+	padding: 10px;
+	background-color: wheat;
+	width: 150px;
+	height: 100px;
+	font-weight: bold;
+	box-shadow: 2px 2px 2px #444;
+	border-radius: 3px;
+}

@@ -1,9 +1,20 @@
 import * as $ from "jquery";
+import UserController from "./UserController";
+
+var userCtrl = new UserController();
 
 $(document).ready(() =>
 {
-    $("p").click(() =>
+    $("p").click(async function()
     {
-        $("#shame").text( "Shame!" );
+		try
+		{
+            await userCtrl.Login( "chili","chilipass" );
+            $("#shame").text( "UID: " + userCtrl.GetUserId() );
+		}
+		catch( e )
+		{
+			$("#shame").text( e );
+		}
     });
 });
