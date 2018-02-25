@@ -9,12 +9,14 @@ $(document).ready(() =>
     {
 		try
 		{
-            await userCtrl.Login( "chili","chilipass" );
-            $("#shame").text( "UID: " + userCtrl.GetUserId() );
+            await userCtrl.Login( "mom","mompass" );
+			$("#shame").text( "UID: " + userCtrl.GetUserId() );
+			await userCtrl.Logout();
+			$("#shame").text( "UID2: " + userCtrl.GetUserId() );
 		}
 		catch( e )
 		{
-			$("#shame").text( e );
+			alert( e );
 		}
     });
 });

@@ -17,30 +17,30 @@ export default class UserController
 
 	public async Login( userName : string,password : string ) : Promise<void>
 	{
-		try
+		assert( this.loggedIn,"Already logged in!" );
+		let userData = await Util.post( "../manserv/LoginController.php",
 		{
-			var response = await Promise.resolve( $.post( "../manserv/LoginController.php",
-			{
-				"cmd" : "login",
-				"userName" : userName,
-				"password" : password
-			} ) );
-		}
-		catch( errPromise )
-		{
-			errPromise.fail(( jqXHR,textStatus,errorThrown ) => {
-				throw new Error( "$.post ajax failed: " + textStatus + " % " + errorThrown )
-			} );
-		}
+			"cmd" : "login",
+			"userName" : userName,
+			"password" : password
+		} ) as any;
 
-		if( response.status.isFail )
-		{			
-			throw new Error( "$.post failed, server returned: " + response.status.message );
-		}
-
-		this.userId = response.payload.id;
-		this.userName = response.payload.name;
+		this.userId = userData.id;
+		this.userName = userData.name;
 		this.loggedIn = true;
+	}
+
+	public async Logout() : Promise<void>
+	{
+		assert( this.loggedIn,"Not logged in!" );
+		await Util.post( "../manserv/LoginController.php",
+		{
+			"cmd" : "logout"
+		} );
+
+		this.userId = -1;
+		this.userName = "";
+		this.loggedIn = false;
 	}
 
 	public IsLoggedIn() : boolean
