@@ -1,11 +1,11 @@
 import * as $ from "jquery";
 
-export function in_range( x : number,min : number,max :number ) : boolean
+export function in_range( x:number,min:number,max:number ) : boolean
 {
     return (x >= min) && (x <= max);
 }
 
-export async function post( url : string,params : object ) : Promise<object>
+export async function post( url:string,params:object ) : Promise<any>
 {
         var response = await $.post( url,params )
         .fail( ( jqXHR,textStatus,errorThrown ) =>

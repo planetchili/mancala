@@ -1,6 +1,5 @@
 import * as assert from "assert";
 import * as Util from "./Util";
-import * as $ from "jquery";
 
 export default class UserController
 {
@@ -15,15 +14,15 @@ export default class UserController
 		this.loggedIn = false;
 	}
 
-	public async Login( userName : string,password : string ) : Promise<void>
+	public async Login( userName:string,password:string ) : Promise<void>
 	{
-		assert( this.loggedIn,"Already logged in!" );
+		assert( !this.loggedIn,"Already logged in!" );
 		let userData = await Util.post( "../manserv/LoginController.php",
 		{
 			"cmd" : "login",
 			"userName" : userName,
 			"password" : password
-		} ) as any;
+		} );
 
 		this.userId = userData.id;
 		this.userName = userData.name;

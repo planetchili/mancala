@@ -11,7 +11,9 @@
             "url": "http://localhost/tsbugger/index.html",
             "webRoot": "${workspaceRoot}",
             "disableNetworkCache": true,
-            "sourceMaps": true
+            "sourceMaps": true,
+            "smartStep": true,
+            "preLaunchTask": "make"
         }
     ]
 }

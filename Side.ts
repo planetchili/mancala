@@ -4,7 +4,7 @@ import * as Util from "./Util";
 export class Side
 {
     private index : number;
-    public constructor( index : number )
+    public constructor( index:number )
     {
         assert( Util.in_range( index,0,1 ),"Out of range in Side ctor" );
         this.index = index;

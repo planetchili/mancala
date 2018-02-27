@@ -1,7 +1,11 @@
 import * as $ from "jquery";
 import UserController from "./UserController";
+import RoomController from "./RoomController";
+import SimpleRoom from "./SimpleRoom";
+import Room from "./Room";
 
 var userCtrl = new UserController();
+var roomController = new RoomController( userCtrl );
 
 $(document).ready(() =>
 {
@@ -9,10 +13,13 @@ $(document).ready(() =>
     {
 		try
 		{
-            await userCtrl.Login( "mom","mompass" );
-			$("#shame").text( "UID: " + userCtrl.GetUserId() );
-			await userCtrl.Logout();
-			$("#shame").text( "UID2: " + userCtrl.GetUserId() );
+			await userCtrl.Login( "chili","chilipass" );
+			let room = await roomController.CreateRoom( "Dicks pumper XTREME!","" );
+			await room.Leave();
+			await room.Leave();
+			let srooms = await roomController.ListRooms();
+
+			$("#shame").text( "" + srooms.length );
 		}
 		catch( e )
 		{
