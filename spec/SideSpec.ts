@@ -1,4 +1,4 @@
-import {Side} from "../Side";
+import Side from "../Side";
 import * as assert from "assert";
 
 describe("Side Tests",() =>
@@ -11,9 +11,9 @@ describe("Side Tests",() =>
 
     it("should give good equals comparisons",() =>
     {
-        expect( new Side( 0 ).Equals( Side.Top() ) ).toBe( true );
-        expect( new Side( 1 ).Equals( Side.Bottom() ) ).toBe( true );
-        expect( new Side( 0 ).Equals( Side.Bottom() ) ).toBe( false );
+        expect( new Side( 0 ).equals( Side.Top() ) ).toBe( true );
+        expect( new Side( 1 ).equals( Side.Bottom() ) ).toBe( true );
+        expect( new Side( 0 ).equals( Side.Bottom() ) ).toBe( false );
     });
 
     it("should throw exception on bad ctor params",() =>

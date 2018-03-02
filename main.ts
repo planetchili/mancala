@@ -3,6 +3,9 @@ import UserController from "./UserController";
 import RoomController from "./RoomController";
 import SimpleRoom from "./SimpleRoom";
 import Room from "./Room";
+import Board from "./Board";
+import Pot from "./Pot";
+import Side from "./Side";
 
 var userCtrl = new UserController();
 var roomController = new RoomController( userCtrl );

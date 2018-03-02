@@ -7,6 +7,11 @@
 			"label": "make",
 			"type": "shell",
 			"command": "make.bat"
+		},
+		{
+			"label": "jasmake",
+			"type": "shell",
+			"command": "tsc --sourceMap"
 		}
 	]
 }

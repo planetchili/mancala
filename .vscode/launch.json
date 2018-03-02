@@ -3,17 +3,29 @@
     // Hover to view descriptions of existing attributes.
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
-    "configurations": [        
+    "configurations": [
         {
             "type": "chrome",
             "request": "launch",
-            "name": "Launch Chrome",
+            "name": "Chrome",
             "url": "http://localhost/tsbugger/index.html",
             "webRoot": "${workspaceRoot}",
             "disableNetworkCache": true,
             "sourceMaps": true,
             "smartStep": true,
             "preLaunchTask": "make"
+        },        
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Jasmine",
+            "program": "${workspaceRoot}\\node_modules\\jasmine\\bin\\jasmine.js",
+            "args": [
+                "JASMINE_CONFIG_PATH=${workspaceRoot}\\spec\\support\\jasmine.json"
+            ],
+            "preLaunchTask": "jasmake",
+            "sourceMaps": true,
+            "smartStep": true
         }
     ]
 }

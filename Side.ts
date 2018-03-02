@@ -1,7 +1,7 @@
 import * as assert from "assert";
 import * as Util from "./Util";
 
-export class Side
+export default class Side
 {
     private index : number;
     public constructor( index:number )
@@ -33,7 +33,7 @@ export class Side
     {
         return this.index;
     }
-    public Equals( other : Side ) : boolean
+    public equals( other : Side ) : boolean
     {
         return this.index === other.index;
     }

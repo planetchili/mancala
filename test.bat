@@ -1,4 +1,4 @@
+@echo off
 call tsc
 call npm test
-del *.js
-del spec\*.js
+call clean
