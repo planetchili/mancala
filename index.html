@@ -2,17 +2,34 @@
 <html>
 <head>
     <script src="./bundle.js"></script>
-    <style>
-        p {
-            color: white;
-        }
-        html {
-            background-color: black;
-        }
-    </style>
+    <link rel="stylesheet" href="./boardstyle.css">
 </head>
-<body>
-    <p>A nice page</p>
-    <p id="shame"></p>
+<body>  
+    <div id="board">
+        <div class="section endsection">
+            <div class="pot" id="pt6"></div> 
+        </div>
+        <div class="section midsection">
+            <div class="midrow topmid">
+                <div class="pot" id="pt5"></div>
+                <div class="pot" id="pt4"></div>
+                <div class="pot" id="pt3"></div>
+                <div class="pot" id="pt2"></div>
+                <div class="pot" id="pt1"></div>
+                <div class="pot" id="pt0"></div>
+            </div>
+            <div class="midrow botmid">
+                <div class="pot" id="pt7"></div>
+                <div class="pot" id="pt8"></div>
+                <div class="pot" id="pt9"></div>
+                <div class="pot" id="pt10"></div>
+                <div class="pot" id="pt11"></div>
+                <div class="pot" id="pt12"></div>
+            </div>
+        </div>
+        <div class="section endsection">
+            <div class="pot" id="pt13"></div>        
+        </div>
+    </div>
 </body>
 </html>

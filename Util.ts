@@ -5,6 +5,11 @@ export function in_range( x:number,min:number,max:number ) : boolean
     return (x >= min) && (x <= max);
 }
 
+export function rand( max_inclusive:number ) : number
+{
+    return Math.floor( Math.random() * max_inclusive ) + 1;
+}
+
 export async function post( url:string,params:object ) : Promise<any>
 {
         var response = await $.post( url,params )

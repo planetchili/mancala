@@ -14,7 +14,7 @@
             "sourceMaps": true,
             "smartStep": true,
             "preLaunchTask": "make"
-        },        
+        },     
         {
             "type": "node",
             "request": "launch",
