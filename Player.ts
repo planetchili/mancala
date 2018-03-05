@@ -34,16 +34,4 @@ export default class Player
 	{
 		return this.isReady;
 	}
-
-	public Ready() : void
-	{
-		assert( !this.isReady,"Already readied in player!" );
-		this.isReady = true;
-	}
-
-	public Unready() : void
-	{
-		assert( this.isReady,"Not readied in player!" );
-		this.isReady = false;
-	}
 }

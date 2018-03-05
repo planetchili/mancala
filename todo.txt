@@ -1,0 +1,2 @@
+> basic (but candidate path) interface for login / room
+$$ assert thrown locally at end of game for some reason investigate

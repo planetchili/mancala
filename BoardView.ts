@@ -4,11 +4,12 @@ import * as $ from "jquery";
 import Color from "./Color";
 import * as assert from "assert";
 import * as Util from "./Util";
+import AnimationAction from "./AnimationAction";
 
 export default class BoardView
 {
 	private readonly beadSpacing : number = 10;
-	private readonly beadMoveSpeed : number = 250;
+	private readonly beadMoveSpeed : number = 175;
 	private readonly beadColors : Color[] = [
 		new Color( 255,0,0,0.7 ),
 		new Color( 0,255,0,0.7 ),
@@ -19,7 +20,7 @@ export default class BoardView
 	private nextBeadId : number = 0;
 	private beadWidth : number;
 
-	public constructor()
+	public constructor( state:number[] )
 	{
 		// sense the bead width and store it
 		// TODO: maybe do something about this (DRY bead html and weird append/remove)
@@ -43,11 +44,22 @@ export default class BoardView
 				this.SpawnBead( pot,this.beadColors[Util.rand( this.beadColors.length - 1 )] );
 			}
 		}
+		// load state
+		this.SetToState( state );
+	}
+
+	public async ReplayAnimation( actions:AnimationAction[] ) : Promise<void>
+	{
+		for( let action of actions )
+		{
+			await this.MoveBead( action.source,action.destination );
+		}
 	}
 
 	public SetToState( state:number[] ) : void
 	{
-		assert( state.length === 14 );
+		assert( state.length === 14,"wrong # pots in state" );
+		assert( state.reduce( (acc,cur) => acc + cur ) === 48,"wrong # beads in state" );
 		// move all beads to body
 		for( let bid = 0; bid < this.nextBeadId; bid++ )
 		{
@@ -97,7 +109,7 @@ export default class BoardView
 				"left":abs_end_pos.x+"px",
 				"top":abs_end_pos.y+"px"
 			},this.beadMoveSpeed ).promise();
-		jqBead.appendTo( jqDestPot ).promise();
+		jqBead.appendTo( jqDestPot );
 		this.SetBeadOffset( jqBead,rel_end_pos );
 	}
 
@@ -180,6 +192,20 @@ export default class BoardView
 	private GetPotOffset( pot:Pot ) : Point
 	{
 		return Point.FromOffset( $(this.GetElementFromPot( pot )).offset() as JQuery.Coordinates );
+	}
+
+	public static GetPotFromElement( element:JQuery<HTMLElement> ) : Pot
+	{
+		let id = element.attr( "id" ) as string;
+		assert( id.startsWith( "pt" ) );
+		return new Pot( parseInt( id.substr( 2 ) ) );
+	}
+
+	public static GetBeadIdFromElement( element:JQuery<HTMLElement> ) : number
+	{
+		let id = element.attr("id") as string;
+		assert( id.startsWith( "bead" ) );
+		return parseInt( id.substr( 4 ) );
 	}
 }
 

@@ -33,6 +33,32 @@ export default class RoomController
 			"password" : password
 		} );
 
-		return new Room( roomData.id,roomData.name,roomData.gameId,roomData.players,this.userCtrl.GetUserId() );
+		return new Room( roomData,this.userCtrl.GetUserId() );
+	}
+
+	public async JoinRoom( sroom:SimpleRoom,password:string ) : Promise<Room>
+	{
+		assert( this.userCtrl.IsLoggedIn(),"joining room when not logged in!" );
+		let roomData = await Util.post( "../manserv/RoomController.php",
+		{
+			"cmd" : "join",
+			"roomId" : sroom.id,
+			"password" : password
+		} );
+
+		return new Room( roomData,this.userCtrl.GetUserId() );
+	}
+
+	public async GetRoomIfJoined() : Promise<Room|null>
+	{
+		assert( this.userCtrl.IsLoggedIn(),"getting room when not logged in!" );
+		let roomData = await Util.post( "../manserv/RoomController.php",
+		{
+			"cmd" : "check"
+		} );		
+		// service returns empty object if not currently joined, so first test if property exists
+		return ('id' in roomData) ?
+			new Room( roomData,this.userCtrl.GetUserId() ) :
+			null;
 	}
 }

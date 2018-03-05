@@ -43,6 +43,11 @@
   border-radius:50px;
 }
 
+.pot-hilight
+{
+  background-color:rgba(255, 255, 255, 0.16);
+}
+
 .bead
 {
   position:absolute;

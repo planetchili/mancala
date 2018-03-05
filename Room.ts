@@ -1,5 +1,6 @@
 import * as assert from "assert";
 import * as Util from "./Util";
+import Game from "./Game";
 import Player from "./Player";
 
 export default class Room
@@ -11,14 +12,22 @@ export default class Room
 	private userId : number;
 	private valid : boolean;
 
-	public constructor( id:number,name:string,gameId:number|null,players:Player[],userId:number )
+	public constructor( data:any,userId:number )
 	{
-		this.id = id;
-		this.name = name;
-		this.gameId = gameId;
-		this.players = players;
+		this.WriteData( data );
 		this.userId = userId;
 		this.valid = true;
+	}
+
+	// TODO: return true if something changed?
+	private WriteData( data:any ) : void
+	{
+		this.id = data.id;
+		this.name = data.name;
+		this.gameId = data.gameId;
+		this.players = data.players.map( (data:any) =>
+			new Player( data.id,data.name,data.isOwner,data.isReady )
+		);
 	}
 
 	public GetId() : number
@@ -77,14 +86,16 @@ export default class Room
 			"roomId" : this.id
 		} );
 
-		this.players = roomData.players;
-		this.gameId = roomData.gameId;
+		this.WriteData( roomData );
 	}
 
 	public GetSelf() : Player
 	{
 		assert( this.valid,"Tried use invalid room!" );
-		return this.players.find(( player:Player ) => player.GetId() === this.userId ) as Player;
+		return this.players.find(( player:Player ) =>
+		{
+			return player.GetId() === this.userId;
+		} ) as Player;
 	}
 
 	public GetOpponent() : Player
@@ -100,34 +111,33 @@ export default class Room
 		return this.GetPlayerCount() > 1;
 	}
 
-	public IsReady() : boolean
+	public async Ready() : Promise<boolean>
 	{
 		assert( this.valid,"Tried use invalid room!" );
-		return this.GetSelf().IsReady();
-	}
-
-	public async Ready() : Promise<void>
-	{
-		assert( this.valid,"Tried use invalid room!" );
-		assert( !this.IsReady(),"Already ready in room!" );
-		await Util.post( "../manserv/RoomController.php",
+		assert( !this.GetSelf().IsReady(),"Already ready in room!" );
+		let newStateData = await Util.post( "../manserv/RoomController.php",
 		{
 			"cmd" : "ready",
 			"roomId" : this.id
 		} );
-		this.GetSelf().Ready();
+
+		this.WriteData( newStateData );
+		return this.IsEngaged();
 	}
 
+	// TODO: what if other player readies and game starts after after request init before completes?
+	// (service returns state we chack it and this func returns flag maybe?)
 	public async Unready() : Promise<void>
 	{
 		assert( this.valid,"Tried use invalid room!" );
-		assert( this.IsReady(),"Not readied in room!" );
-		await Util.post( "../manserv/RoomController.php",
+		assert( this.GetSelf().IsReady(),"Not readied in room!" );
+		let newStateData = await Util.post( "../manserv/RoomController.php",
 		{
 			"cmd" : "unready",
 			"roomId" : this.id
 		} );
-		this.GetSelf().Unready();
+
+		this.WriteData( newStateData );
 	}
 
 	public async Leave() : Promise<void>
@@ -139,5 +149,22 @@ export default class Room
 			"roomId" : this.id
 		} );
 		this.valid = false;
+	}
+
+	public async GetGame() : Promise<Game>
+	{
+		assert( this.gameId != null,"tried to get game when null" );
+		let gameData = await Util.post( "../manserv/GameController.php",
+		{
+			"cmd" : "query",
+			"roomId" : this.id,
+			"gameId" : this.gameId
+		} );
+		return new Game( this.gameId as number,this.id,gameData );
+	}
+
+	public IsEngaged() : boolean
+	{
+		return this.gameId !== null;
 	}
 }
