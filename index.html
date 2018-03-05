@@ -3,6 +3,7 @@
 <head>
     <script src="./bundle.js"></script>
     <link rel="stylesheet" href="./boardstyle.css">
+    <link rel="stylesheet" href="./popupstyle.css">
 </head>
 <body>  
     <div id="board">
@@ -36,5 +37,22 @@
         <input type="text" id="login_password" value="chilipass"><br>
         <input type="button" value="Do Test" id="dotestbtn">
     </form>
+
+    <button id="trigger-1">Click me</button>
+    <button id="trigger-2">Click me</button>
+    <div class="overlay" id="dialog-1">
+      <div class="popup">
+        <div class="close" id="dialog-1-close">X</div>
+        <h2>This is a popup</h2>
+        <p>You just triggered a popup</p>
+      </div>
+    </div>
+    <div class="overlay" id="dialog-2">
+      <div class="popup">
+        <div class="close" id="dialog-2-close">X</div>
+        <h2>This is a dick</h2>
+        <p>You just triggered a 8=========D</p>
+      </div>
+    </div>
 </body>
 </html>

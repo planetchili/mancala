@@ -19,6 +19,24 @@ var game : Game;
 
 $(document).ready(() =>
 {
+	$("#trigger-1").click(() =>
+	{
+		$("#dialog-1").fadeIn( 300 );  
+	} );
+	$("#dialog-1-close").click(() =>
+	{
+		$("#dialog-1").fadeOut( 300 );
+	} );
+
+	$("#trigger-2").click(() =>
+	{
+		$("#dialog-2").fadeIn( 300 );  
+	} );
+	$("#dialog-2-close").click(() =>
+	{
+		$("#dialog-2").fadeOut( 300 );
+	} );
+
 	$("#dotestbtn").click(async () =>
 	{
 		try
