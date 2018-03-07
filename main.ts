@@ -26,6 +26,8 @@ $(document).ready(() =>
 	$("#join-overlay").hide();
 	$("#game-overlay").hide();
 
+	Globals.Init();
+
 	new LoginWindow();
 } );
 

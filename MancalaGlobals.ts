@@ -6,9 +6,17 @@ import LobbyView from "./LobbyView";
 
 export default class Globals
 {
-	public static userCtrl = new UserController();
-	public static lobbyView = new LobbyView();
-	public static roomController = new RoomController( Globals.userCtrl );
+	public static userCtrl : UserController;
+	public static lobbyView : LobbyView;
+	public static roomController : RoomController;
+	// TODO: these guys might need to go (put them in something else relevent)
 	public static game : Game;
 	public static boardView : BoardView;
+
+	public static Init() : void
+	{
+		Globals.userCtrl = new UserController();
+		Globals.lobbyView = new LobbyView();
+		Globals.roomController = new RoomController( Globals.userCtrl );
+	}
 }
