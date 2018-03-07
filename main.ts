@@ -26,30 +26,7 @@ $(document).ready(() =>
 	$("#join-overlay").hide();
 	$("#game-overlay").hide();
 
-	$("#login-open-button").click(() =>
-	{
-		$("#login-overlay").fadeIn( 300 );  
-	} );
-	// $("#dialog-1-close").click(() =>
-	// {
-	// 	$("#dialog-1").fadeOut( 300 );
-	// } );
-
-	// $("#login-overlay").fadeIn( 300 );
-
 	new LoginWindow();
-
-	$("#spawn-create-button").click(async () =>
-	{
-		try
-		{
-			new CreateWindow();
-		}
-		catch( e )
-		{
-			alert( e );
-		}
-	} );
 } );
 
 function RemoveClickListeners() : void

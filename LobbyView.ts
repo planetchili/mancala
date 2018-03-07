@@ -3,6 +3,7 @@ import * as $ from "jquery";
 import * as Util from "./Util";
 import Globals from "./MancalaGlobals";
 import RoomWindow from "./RoomWindow";
+import CreateWindow from "./CreateWindow";
 
 export default class LobbyView
 {
@@ -11,6 +12,18 @@ export default class LobbyView
 	public constructor()
 	{
 		this.rooms = [];
+
+		$("#spawn-create-button").click(async () =>
+		{
+			try
+			{
+				new CreateWindow();
+			}
+			catch( e )
+			{
+				alert( e );
+			}
+		} );
 	}
 
 	public Update( uRooms:SimpleRoom[] ) : void
