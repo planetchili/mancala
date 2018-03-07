@@ -1,2 +1,6 @@
-> basic (but candidate path) interface for login / room
-$$ assert thrown locally at end of game for some reason investigate
+> make a popup for end of game to show result
+	popup has option for return to room
+
+- make an option for forfeiting game
+- add labels for board side
+- add indicator for current turn

@@ -16,7 +16,7 @@ export default class Board
 		assert( this.GetPot( move ) != 0,'Cannot take from empty pot' );
 
 		// animation sequence
-		let seq : AnimationAction[] = [];
+		const seq : AnimationAction[] = [];
 		// remove beads from move pot
 		let beads = this.TakeAllPot( move );
 		// sow all beads but last one
@@ -33,10 +33,10 @@ export default class Board
 			&& !cur.IsMancala() )
 		{
 			// make da stuffs
-			let opposite = cur.GetOpposite();
-			let mancala = Pot.FromSideOffset( cur.GetSide(),6 );
+			const mancala = Pot.FromSideOffset( active_side,6 );
+			const opposite = cur.GetOpposite();
 			// do da stuffs
-			let stolen = this.TakeAllPot( opposite );
+			const stolen = this.TakeAllPot( opposite );
 			this.SetPot( cur,0 );
 			this.DumpInMancala( cur.GetSide(),stolen + 1 );
 			// animate da stuffs
@@ -46,8 +46,51 @@ export default class Board
 			}
 			seq.push( new AnimationAction( cur,mancala ) );
 		}
+		// check for endgame situation
+		const empty = this.GetEmptySide();
+		if( empty.hasSide )
+		{
+			for( let i = 0; i < 6; i++ )
+			{
+				const sweepSide = (empty.emptySide as Side).GetOpposite()
+				const mancala = Pot.FromSideOffset( sweepSide,6 );
+				const sweepPot = Pot.FromSideOffset( sweepSide,i );
+				const nBeads = this.TakeAllPot( sweepPot );
+				for( let j = 0; j < nBeads; j++ )
+				{
+					seq.push( new AnimationAction( sweepPot,mancala ) );
+				}
+				this.DumpInMancala( sweepSide,nBeads );
+			}
+		}
 		// return true if mancala and the bead move sequence
 		return { isMan: cur.IsMancala(),seq: seq };
+	}
+
+	private GetEmptySide() : { hasSide:boolean,emptySide?:Side }
+	{
+		const checkSide = (side:Side) : boolean =>
+		{
+			for( let i = 0; i < 6; i++ )
+			{
+				if( this.GetPot( Pot.FromSideOffset( side,i ) ) !== 0 )
+				{
+					return false;
+				}
+			}
+			return true;
+		};
+
+		if( checkSide( Side.Top() ) )
+		{
+			return { hasSide: true,emptySide: Side.Top() };
+		}
+		else if( checkSide( Side.Bottom() ) )
+		{
+			return { hasSide: true,emptySide: Side.Bottom() };
+		}
+
+		return { hasSide: false };
 	}
 
 	public CheckIfSideEmpty( side:Side ) : boolean
@@ -60,36 +103,6 @@ export default class Board
 			}
 		}
 		return true;
-	}
-
-	public CollectSide( side:Side ) : number
-	{
-		let sum = 0;
-		for( let offset = 0; offset < 6; offset++ )
-		{
-			sum += this.TakeAllPot( Pot.FromSideOffset( side,offset ) );
-		}
-		return sum;
-	}
-
-	/** sweeps side if necessary and returns true if game over */
-	public ProcessSweep() : boolean
-	{
-		if( this.CheckIfSideEmpty( Side.Top() ) )
-		{
-			this.DumpInMancala( Side.Bottom(),
-				this.CollectSide( Side.Bottom() )
-			);
-			return true;
-		}
-		else if( this.CheckIfSideEmpty( Side.Bottom() ) )
-		{
-			this.DumpInMancala( Side.Top(),
-				this.CollectSide( Side.Top() )
-			);
-			return true;
-		}
-		return false;
 	}
 
 	/** Game must be over to call GetWinState() */
