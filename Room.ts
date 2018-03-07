@@ -8,7 +8,7 @@ export default class Room
 	private id : number;
 	private name : string;
 	private gameId : number|null;
-	private players : Player[];
+	private players : Player[] = [];
 	private userId : number;
 	private valid : boolean;
 
@@ -19,15 +19,40 @@ export default class Room
 		this.valid = true;
 	}
 
-	// TODO: return true if something changed?
-	private WriteData( data:any ) : void
+	private WriteData( data:any ) : boolean
 	{
+		let changed = false;
+
+		if( this.id !== data.id )
+		{
+			changed = true;
+		}
 		this.id = data.id;
+
+		if( this.name !== data.name )
+		{
+			changed = true;
+		}
 		this.name = data.name;
+
+		if( this.gameId !== data.gameId )
+		{
+			changed = true;
+		}
 		this.gameId = data.gameId;
-		this.players = data.players.map( (data:any) =>
+
+		// construct Player objects from server data
+		const players = (data.players as any[]).map( (data:any) =>
 			new Player( data.id,data.name,data.isOwner,data.isReady )
 		);
+		if( players.length !== this.players.length ||
+			!players.every( (p,i) => p.equals( this.players[i] ) ) )
+		{
+			changed = true;
+		}
+		this.players = players;
+
+		return changed;
 	}
 
 	public GetId() : number
@@ -77,7 +102,7 @@ export default class Room
 		return result as Player;
 	}
 
-	public async Update() : Promise<void>
+	public async Update() : Promise<boolean>
 	{
 		assert( this.valid,"Tried use invalid room!" );
 		let roomData = await Util.post( "../manserv/RoomController.php",
@@ -86,7 +111,7 @@ export default class Room
 			"roomId" : this.id
 		} );
 
-		this.WriteData( roomData );
+		return this.WriteData( roomData );
 	}
 
 	public GetSelf() : Player
@@ -166,5 +191,11 @@ export default class Room
 	public IsEngaged() : boolean
 	{
 		return this.gameId !== null;
+	}
+
+	public IsReadyToEngage() : boolean
+	{
+		return this.GetPlayerCount() === 2 &&
+			this.GetPlayers().every( (player:Player) => player.IsReady() );
 	}
 }

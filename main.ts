@@ -11,47 +11,39 @@ import BoardView from "./BoardView";
 import Color from "./Color";
 import Point from "./Point";
 import Game from "./Game";
+import LobbyView from "./LobbyView";
+import Globals from "./MancalaGlobals";
+import LoginWindow from "./LoginWindow";
+import CreateWindow from "./CreateWindow";
 
-var userCtrl = new UserController();
-var roomController = new RoomController( userCtrl );
-var boardView : BoardView;
-var game : Game;
 
 $(document).ready(() =>
 {
-	$("#trigger-1").click(() =>
-	{
-		$("#dialog-1").fadeIn( 300 );  
-	} );
-	$("#dialog-1-close").click(() =>
-	{
-		$("#dialog-1").fadeOut( 300 );
-	} );
+	// hide all popup overlays
+	$("#login-overlay").hide();
+	$("#room-overlay").hide();
+	$("#create-overlay").hide();
+	$("#join-overlay").hide();
+	$("#game-overlay").hide();
 
-	$("#trigger-2").click(() =>
+	$("#login-open-button").click(() =>
 	{
-		$("#dialog-2").fadeIn( 300 );  
+		$("#login-overlay").fadeIn( 300 );  
 	} );
-	$("#dialog-2-close").click(() =>
-	{
-		$("#dialog-2").fadeOut( 300 );
-	} );
+	// $("#dialog-1-close").click(() =>
+	// {
+	// 	$("#dialog-1").fadeOut( 300 );
+	// } );
 
-	$("#dotestbtn").click(async () =>
+	// $("#login-overlay").fadeIn( 300 );
+
+	new LoginWindow();
+
+	$("#spawn-create-button").click(async () =>
 	{
 		try
 		{
-			const name = $("#login_name").val() as string;
-			const password = $("#login_password").val() as string;
-			await userCtrl.Login( name,password );
-			let srooms = await roomController.ListRooms();
-			// let room = await roomController.JoinRoom( srooms[0],"" );
-			let room = await roomController.GetRoomIfJoined() as Room;
-			// await room.Ready();
-			game = await room.GetGame();
-
-			boardView = new BoardView( game.GetBoardState() );
-			AddClickListeners();
+			new CreateWindow();
 		}
 		catch( e )
 		{
@@ -71,16 +63,16 @@ function RemoveClickListeners() : void
 async function AddClickListeners() : Promise<void>
 {
 	// just poll while not our turn, updating when behind server
-	while( !game.GetActiveSide().equals( game.GetOurSide() ) )
+	while( !Globals.game.GetActiveSide().equals( Globals.game.GetOurSide() ) )
 	{
 		try
 		{
-			const actions = await game.Update();
+			const actions = await Globals.game.Update();
 			if( actions.length != 0 )
 			{
-				await boardView.ReplayAnimation( actions );
-				const board_state = game.GetBoardState();
-				assert( boardView.ToArray().every( (pot,i) => pot === board_state[i] ),"view don't match board updated from server" );
+				await Globals.boardView.ReplayAnimation( actions );
+				const board_state = Globals.game.GetBoardState();
+				assert( Globals.boardView.ToArray().every( (pot,i) => pot === board_state[i] ),"view don't match board updated from server" );
 			}
 		}
 		catch( e )
@@ -91,9 +83,9 @@ async function AddClickListeners() : Promise<void>
 	}
 
 	// cache the board state array
-	const board_state = game.GetBoardState();
+	const board_state = Globals.game.GetBoardState();
 	// side filter selector
-	const sfs = game.GetOurSide().IsTop() ? ".topmid" : ".botmid";
+	const sfs = Globals.game.GetOurSide().IsTop() ? ".topmid" : ".botmid";
 	// filter so that only pots with beads can be clicked
 	$(sfs + " .pot").filter( ( index:number,element:HTMLElement ) =>
 		board_state[BoardView.GetPotFromElement( $(element) ).GetIndex()] !== 0
@@ -103,11 +95,11 @@ async function AddClickListeners() : Promise<void>
 		try
 		{
 			RemoveClickListeners();
-			const result = game.DoMove( BoardView.GetPotFromElement( $(this) ) );
-			await boardView.ReplayAnimation( result.seq );
+			const result = Globals.game.DoMove( BoardView.GetPotFromElement( $(this) ) );
+			await Globals.boardView.ReplayAnimation( result.seq );
 			await result.promise;
-			const board_state = game.GetBoardState();
-			assert( boardView.ToArray().every( (pot,i) => pot === board_state[i] ),"view don't match board updated from server" );
+			const board_state = Globals.game.GetBoardState();
+			assert( Globals.boardView.ToArray().every( (pot,i) => pot === board_state[i] ),"view don't match board updated from server" );
 			AddClickListeners();
 		}
 		catch( e )

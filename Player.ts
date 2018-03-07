@@ -34,4 +34,12 @@ export default class Player
 	{
 		return this.isReady;
 	}
+
+	public equals( rhs:Player ) : boolean
+	{
+		return this.id === rhs.id &&
+			this.name === rhs.name &&
+			this.isOwner === rhs.isOwner &&
+			this.isReady === rhs.isReady;
+	}
 }

@@ -1,14 +1,4 @@
-button
-{
-	background: #99e;
-	color: rgb(88, 24, 104);
-	text-align: center;
-	font-weight: bold;
-	padding: 10px 30px;
-	border-radius: 9px;	
-}
-
-.overlay
+div.overlay
 {
 	position: fixed;
 	height: 100%;
@@ -18,28 +8,102 @@ button
 	bottom: 0;
 	left: 0;
 	background: rgba(0,0,0,0.4);
-	display: none;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
 }
 
-.popup
+div.overlay div.popup
 {
-	max-width: 600px;
-	width: 80%;
-	max-height: 300px;
-	height: 80%;
+	font-family: "Source Sans Pro", sans-serif;
+	width: 400px;
 	padding: 20px;
 	position: relative;
-	background: #fff;
+	background-color: #f4f4f4;
 	margin: 20px auto;
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.26);
 	border-radius: 6px;
 }
 
-.close
+div.overlay div.popup button.main
+{
+	width: 100px;
+	height: 50px;
+	border-radius: 25px;
+	border: none;
+	background-color: #e3e3e0;
+	padding: 10px 20px;
+	margin: 10px 0px 0px 0px;
+	outline: 0;
+}
+
+div.overlay div.popup button.main:hover
+{
+	background-color: #d4d4d1;
+}
+
+div.overlay div.popup button.main:active
+{
+	background-color: #ccd;
+}
+
+div.overlay div.popup  input[type=text],
+div.overlay div.popup  input[type=password]
+{
+	width: 100%;
+	margin: 10px 0px;
+	padding: 15px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	font-size: 12pt;
+	color: #222;
+	box-sizing: border-box;
+}
+
+div.overlay div.popup div.close
 {
 	position: absolute;
 	top: 10px;
 	right: 10px;
 	cursor: pointer;
 	color: #000;
+}
+
+div.overlay div.popup h3
+{
+	margin: 0px 0px 15px 0px;
+}
+
+
+/* window-specific styles */
+
+div#room-overlay div.player-wrap
+{
+	display: flex;
+	justify-content: space-around;
+	margin: 0px;
+	padding: 0px;
+}
+
+div#room-overlay div.player-wrap div.player
+{
+	background-color: skyblue;
+	margin: 5px;
+	padding: 20px;
+}
+
+div#room-overlay div.player-wrap div.player p
+{
+	margin: 2px;
+}
+
+div#room-overlay div.player-wrap div.player h4
+{
+	margin: 2px;
+}
+
+div#room-overlay div.player-wrap div.player input[type=checkbox]
+{
+	width: 20px;
+	height: 20px;
 }

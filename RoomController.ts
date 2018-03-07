@@ -61,4 +61,14 @@ export default class RoomController
 			new Room( roomData,this.userCtrl.GetUserId() ) :
 			null;
 	}
+
+	public async LeaveRoom( room:Room ) : Promise<void>
+	{
+		assert( this.userCtrl.IsLoggedIn(),"leaving room when not logged in!" );
+		await Util.post( "../manserv/RoomController.php",
+		{
+			"cmd" : "leave",
+			"roomId" : room.GetId()
+		} );
+	}
 }

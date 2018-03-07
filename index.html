@@ -2,57 +2,149 @@
 <html>
 <head>
     <script src="./bundle.js"></script>
+    <link rel="stylesheet" href="./commonstyle.css">
+    <link rel="stylesheet" href="./lobbystyle.css">
     <link rel="stylesheet" href="./boardstyle.css">
     <link rel="stylesheet" href="./popupstyle.css">
 </head>
 <body>  
-    <div id="board">
-        <div class="section endsection">
-            <div class="pot" id="pt6"></div> 
+    <header id="lobby-header">
+        <h1>Mancala</h1>
+        <div id="lobby-user">
+            <p>chili</p>
+            <button id="header-logout-button">LOGOUT</button>
         </div>
-        <div class="section midsection">
-            <div class="midrow topmid">
-                <div class="pot" id="pt5"></div>
-                <div class="pot" id="pt4"></div>
-                <div class="pot" id="pt3"></div>
-                <div class="pot" id="pt2"></div>
-                <div class="pot" id="pt1"></div>
-                <div class="pot" id="pt0"></div>
+    </header>
+
+    <div id="lobby-body">
+        <!--
+        <div class="room-card">
+            <h3>Dick Plumpers</h3>
+            <div class="player-wrap">
+                <p>chili</p>
+                <button>JOIN</button>
             </div>
-            <div class="midrow botmid">
-                <div class="pot" id="pt7"></div>
-                <div class="pot" id="pt8"></div>
-                <div class="pot" id="pt9"></div>
-                <div class="pot" id="pt10"></div>
-                <div class="pot" id="pt11"></div>
-                <div class="pot" id="pt12"></div>
+            <p class="status">Waiting for second player</p>
+        </div>
+        <div class="room-card">
+            <h3>Dick Plumpers</h3>
+            <div class="player-wrap">
+                <p>chili</p>
+                <p>spaknyChig</p>
             </div>
+            <p class="status">Idle</p>
         </div>
-        <div class="section endsection">
-            <div class="pot" id="pt13"></div>        
-        </div>
+        <div class="room-card"></div>
+        -->
     </div>
+
+    <div id="spawn-create-button">+</div>
+
+<!--
     <form>
         <input type="text" id="login_name" value="chili"><br>
         <input type="text" id="login_password" value="chilipass"><br>
         <input type="button" value="Do Test" id="dotestbtn">
     </form>
 
-    <button id="trigger-1">Click me</button>
-    <button id="trigger-2">Click me</button>
-    <div class="overlay" id="dialog-1">
-      <div class="popup">
-        <div class="close" id="dialog-1-close">X</div>
-        <h2>This is a popup</h2>
-        <p>You just triggered a popup</p>
-      </div>
+    <button id="login-open-button">Click me</button>
+-->
+
+    <div class="overlay" id="login-overlay">
+        <div class="popup">
+            <label for="login-username">Username</label><br>
+            <input type="text" id="login-username" value="chili"><br>
+            <label for="login-password">Password</label><br>
+            <input type="text" id="login-password" value="chilipass"><br>
+            <div class="center-wrap">
+                <button type="button" id="login-button" class="main">LOGIN</button>
+            </div>
+        </div>
     </div>
-    <div class="overlay" id="dialog-2">
-      <div class="popup">
-        <div class="close" id="dialog-2-close">X</div>
-        <h2>This is a dick</h2>
-        <p>You just triggered a 8=========D</p>
-      </div>
+
+
+    <div class="overlay" id="join-overlay">
+        <div class="popup">
+            <h3>Joining Room "spunkm0ney"</h3>
+            <label for="join-password">Password</label><br>
+            <input type="password" id="join-password"><br>
+            <div class="center-wrap">
+                <button type="button" id="join-button" class="main">JOIN</button>
+            </div>
+        </div>
     </div>
+
+
+    <div class="overlay" id="create-overlay">
+        <div class="popup">
+            <h3>Creating Room</h3>
+            <label for="create-name">Room Name</label><br>
+            <input type="text" id="create-name"><br>
+            <label for="create-password">Password</label><br>
+            <input type="password" id="create-password"><br>
+            <div class="center-wrap">
+                <button type="button" id="create-button" class="main">CREATE</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="overlay" id="room-overlay">
+        <div class="popup">
+            <h3>Room: [Dicks smakcker filluidjf weapon!]</h3>
+            <div class="player-wrap">
+                <div class="player" id="room-overlay-player0">
+                    <h4>Owner</h4>
+                    <p>chili</p>
+                    <form>
+                        <label>Ready:</label>
+                        <input type="checkbox">
+                    </form>
+                </div>
+                <div class="player" id="room-overlay-player1">
+                    <h4>Guest</h4>
+                    <p>mom</p>
+                    <form>
+                        <label>Ready:</label>
+                        <input type="checkbox">
+                    </form>
+                </div>
+            </div>
+            <div class="center-wrap">
+                <button type="button" id="leave-button" class="main">LEAVE</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="overlay" id="game-overlay">
+        <div id="board">
+            <div class="section endsection">
+                <div class="pot" id="pt6"></div> 
+            </div>
+            <div class="section midsection">
+                <div class="midrow topmid">
+                    <div class="pot" id="pt5"></div>
+                    <div class="pot" id="pt4"></div>
+                    <div class="pot" id="pt3"></div>
+                    <div class="pot" id="pt2"></div>
+                    <div class="pot" id="pt1"></div>
+                    <div class="pot" id="pt0"></div>
+                </div>
+                <div class="midrow botmid">
+                    <div class="pot" id="pt7"></div>
+                    <div class="pot" id="pt8"></div>
+                    <div class="pot" id="pt9"></div>
+                    <div class="pot" id="pt10"></div>
+                    <div class="pot" id="pt11"></div>
+                    <div class="pot" id="pt12"></div>
+                </div>
+            </div>
+            <div class="section endsection">
+                <div class="pot" id="pt13"></div>        
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>

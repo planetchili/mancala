@@ -1,0 +1,112 @@
+#lobby-header
+{
+	background-color: slategray;
+	color: white;
+	padding: 0px;
+	margin: 0px;
+	display: flex;
+	justify-content: space-between;
+}
+
+#lobby-header h1
+{
+	margin: 0px;
+	padding: 10px 0px 10px 45px;
+	font-family: Impact;
+	font-size: 50px;
+	font-weight: 300;
+}
+
+div#lobby-user
+{
+	background-color: rgb(129, 159, 189);
+	padding: 10px 15px;
+	text-align: center;
+}
+
+div#lobby-user p,div#lobby-user button
+{
+	margin: 3px;
+	padding: 2px;
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+div#lobby-user button
+{
+	font-size: 10px;
+}
+
+div#lobby-user p
+{
+	font-size: 16px;
+}
+
+div#lobby-body
+{
+	display: flex;
+	flex-flow: row wrap;
+}
+
+div.room-card
+{
+	background-color: white;
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	width: 280px;
+	height: 200px;
+	padding: 6px;
+	margin: 24px;
+}
+
+div.room-card h3
+{
+	color: slateblue;
+	text-shadow: 2px 2px 1px rgba(0,0,0,0.25);
+	margin: 5px;
+	padding: 0px;
+	text-align: center;
+}
+
+div.room-card div.player-wrap
+{
+	display: flex;
+	justify-content: space-around;
+}
+
+div.room-card div.player-wrap button
+{
+	padding: 0px;
+	margin: 0px;
+	height: 0%;
+	align-self: center;
+    user-select: none;
+}
+
+div#spawn-create-button
+{
+	position: fixed;
+	right: 18px;
+	bottom: 18px;
+	width: 50px;
+	height: 50px;
+	font-size: 42px;
+	font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+	color: white;
+	background-color: green;
+	cursor: pointer;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	border-radius: 100%;
+	text-align: center;
+    user-select: none;
+}
+
+div#spawn-create-button:hover
+{
+	background-color: red;
+}
+
+div#spawn-create-button:active
+{
+	background-color: pink;
+	color: darkgray;
+}

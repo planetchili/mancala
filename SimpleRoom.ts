@@ -14,4 +14,13 @@ export default class SimpleRoom
 		this.locked = simpleRoomData.locked;
 		this.playerNames = simpleRoomData.players;
 	}
+
+	public equals( rhs:SimpleRoom ) : boolean
+	{
+		return this.id === rhs.id &&
+			this.name === rhs.name &&
+			this.engaged == rhs.engaged &&
+			this.locked === rhs.locked &&
+			this.playerNames.every( (name:string,i:number) => name === rhs.playerNames[i] );
+	}
 }
