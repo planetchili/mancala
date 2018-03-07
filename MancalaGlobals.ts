@@ -9,9 +9,6 @@ export default class Globals
 	public static userCtrl : UserController;
 	public static lobbyView : LobbyView;
 	public static roomController : RoomController;
-	// TODO: these guys might need to go (put them in something else relevent)
-	public static game : Game;
-	public static boardView : BoardView;
 
 	public static Init() : void
 	{

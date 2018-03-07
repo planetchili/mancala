@@ -2,6 +2,7 @@ import Globals from "./MancalaGlobals";
 import * as $ from "jquery";
 import Room from "./Room";
 import Window from "./Window";
+import GameWindow from "./GameWindow";
 
 export default class RoomWindow extends Window
 {
@@ -134,6 +135,11 @@ export default class RoomWindow extends Window
 		await new Promise<void>( (resolve) => func( resolve,func ) );
 	}
 
+	public GetRoom() : Room
+	{
+		return this.room;
+	}
+
 	private async RunUpdate() : Promise<void>
 	{
 		// continually update while not both players ready
@@ -148,7 +154,8 @@ export default class RoomWindow extends Window
 				}
 				if( this.room.IsReadyToEngage() )
 				{
-					alert( "Game starting! #" + this.room.GetGameId() );
+					this.Hide();
+					await new GameWindow( this ).Init();
 					this.updateStopFlag = true;
 				}
 			}
