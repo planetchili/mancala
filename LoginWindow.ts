@@ -1,6 +1,8 @@
 import Window from "./Window";
 import Globals from "./MancalaGlobals";
 import * as $ from "jquery";
+import Room from "./Room";
+import RoomWindow from "./RoomWindow";
 
 export default class LoginWindow extends Window
 {
@@ -20,7 +22,20 @@ export default class LoginWindow extends Window
 				$("#login-password").val() as string
 			);
 
-			Globals.lobbyView.StartUpdateThread();
+			// check if we are already in a room
+			const room = await Globals.roomController.GetRoomIfJoined();
+			if( room !== null )
+			{
+				new RoomWindow( room as Room ).Init();
+				// update the lobby for shits and giggles
+				(async () => Globals.lobbyView.Update(
+					await Globals.roomController.ListRooms()
+				))();
+			}
+			else
+			{
+				Globals.lobbyView.StartUpdateThread();
+			}
 
 			this.Destroy();
 		}

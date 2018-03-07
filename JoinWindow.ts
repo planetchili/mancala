@@ -24,7 +24,7 @@ export default class JoinWindow extends Window
 			new RoomWindow( await Globals.roomController.JoinRoom( 
 				this.sroom,
 				$("#join-password").val() as string
-			) );
+			) ).Init();
 
 			this.Destroy();
 		}

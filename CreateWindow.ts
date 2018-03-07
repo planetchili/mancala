@@ -27,7 +27,7 @@ export default class CreateWindow extends Window
 				Globals.lobbyView.Update( await Globals.roomController.ListRooms() )
 			)();
 
-			new RoomWindow( room );
+			new RoomWindow( room ).Init();
 
 			this.Destroy();
 		}

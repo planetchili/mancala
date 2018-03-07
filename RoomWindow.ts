@@ -19,9 +19,20 @@ export default class RoomWindow extends Window
 		this.threadRunning = false;
 
 		$("#leave-button").click( () => this.OnLeave() );
-		this.Render();
-		this.Show();
-		this.StartUpdateThread();
+	}
+
+	public async Init() : Promise<void>
+	{
+		if( this.room.IsEngaged() )
+		{
+			await new GameWindow( this ).Init();
+		}
+		else
+		{
+			this.Render();
+			this.Show();
+			this.StartUpdateThread();
+		}
 	}
 
 	private Render() : void

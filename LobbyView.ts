@@ -138,7 +138,7 @@ export default class LobbyView
 			}
 			else
 			{
-				new RoomWindow( await Globals.roomController.JoinRoom( sroom,"" ) );
+				new RoomWindow( await Globals.roomController.JoinRoom( sroom,"" ) ).Init();
 			}
 		}
 		catch( e )
