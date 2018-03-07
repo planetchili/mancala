@@ -4,6 +4,7 @@ import * as Util from "./Util";
 import Globals from "./MancalaGlobals";
 import RoomWindow from "./RoomWindow";
 import CreateWindow from "./CreateWindow";
+import JoinWindow from "./JoinWindow";
 
 export default class LobbyView
 {
@@ -130,7 +131,15 @@ export default class LobbyView
 		try
 		{
 			this.StopUpdateThread();
-			new RoomWindow( await Globals.roomController.JoinRoom( sroom,"" ) );
+
+			if( sroom.locked )
+			{
+				new JoinWindow( sroom );
+			}
+			else
+			{
+				new RoomWindow( await Globals.roomController.JoinRoom( sroom,"" ) );
+			}
 		}
 		catch( e )
 		{

@@ -3,6 +3,7 @@ import Globals from "./MancalaGlobals";
 import * as $ from "jquery";
 import RoomWindow from "./RoomWindow";
 
+// TODO: add close button
 export default class CreateWindow extends Window
 {
 	public constructor()
