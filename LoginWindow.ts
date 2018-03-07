@@ -20,10 +20,8 @@ export default class LoginWindow extends Window
 				$("#login-password").val() as string
 			);
 
-			Globals.lobbyView.Update(
-				await Globals.roomController.ListRooms()
-			);
-			
+			Globals.lobbyView.StartUpdateThread();
+
 			this.Destroy();
 		}
 		catch( e )

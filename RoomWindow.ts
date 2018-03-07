@@ -7,15 +7,20 @@ export default class RoomWindow extends Window
 {
 	private room : Room;
 	private checkSelector : string;
+	private updateStopFlag : boolean;
+	private threadRunning : boolean;
 
 	public constructor( room:Room )
 	{
 		super();
 		this.room = room;
+		this.updateStopFlag = true;
+		this.threadRunning = false;
+
 		$("#leave-button").click( () => this.OnLeave() );
 		this.Render();
 		this.Show();
-		this.RunUpdate();
+		this.StartUpdateThread();
 	}
 
 	private Render() : void
@@ -102,9 +107,37 @@ export default class RoomWindow extends Window
 		}
 	}
 
+	private StartUpdateThread()
+	{
+		if( this.updateStopFlag )
+		{
+			this.updateStopFlag = false;
+			this.RunUpdate();
+		}
+	}
+
+	private async StopUpdateThread() : Promise<void>
+	{
+		this.updateStopFlag = true;
+		// this will poll every 80ms to check for thread death
+		const func = (resolve,thisfunc) =>
+		{
+			if( !this.threadRunning )
+			{
+				resolve();
+			}
+			else
+			{
+				setTimeout( () => thisfunc( resolve,thisfunc ),80 );
+			}
+		};
+		await new Promise<void>( (resolve) => func( resolve,func ) );
+	}
+
 	private async RunUpdate() : Promise<void>
 	{
 		// continually update while not both players ready
+		this.threadRunning = true;
 		try
 		{
 			do
@@ -113,25 +146,29 @@ export default class RoomWindow extends Window
 				{
 					this.Render();
 				}
+				if( this.room.IsReadyToEngage() )
+				{
+					alert( "Game starting! #" + this.room.GetGameId() );
+					this.updateStopFlag = true;
+				}
 			}
-			while( !this.room.IsReadyToEngage() );
+			while( !this.updateStopFlag );
 		}
 		catch( e )
 		{
 			alert( e );			
 			this.RunUpdate();
 		}
-
-		// spawn game and exit
-		alert( "Game starting! #" + this.room.GetGameId() );
+		this.threadRunning = false;
 	}
 
 	private async OnLeave() : Promise<void>
 	{
 		try
 		{
+			await this.StopUpdateThread();
 			await Globals.roomController.LeaveRoom( this.room );
-			Globals.lobbyView.Update( await Globals.roomController.ListRooms() );
+			Globals.lobbyView.StartUpdateThread();
 
 			this.Destroy();
 		}

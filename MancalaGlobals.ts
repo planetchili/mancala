@@ -16,7 +16,7 @@ export default class Globals
 	public static Init() : void
 	{
 		Globals.userCtrl = new UserController();
-		Globals.lobbyView = new LobbyView();
 		Globals.roomController = new RoomController( Globals.userCtrl );
+		Globals.lobbyView = new LobbyView();
 	}
 }

@@ -8,22 +8,28 @@ import CreateWindow from "./CreateWindow";
 export default class LobbyView
 {
 	private rooms : SimpleRoom[];
+	private updateStopped : boolean;
 
 	public constructor()
 	{
 		this.rooms = [];
+		this.updateStopped = true;
 
-		$("#spawn-create-button").click(async () =>
+		// + button bottom right handler set
+		$("#spawn-create-button").click( () => this.OnCreate() );
+	}
+
+	private OnCreate() : void
+	{
+		try
 		{
-			try
-			{
-				new CreateWindow();
-			}
-			catch( e )
-			{
-				alert( e );
-			}
-		} );
+			this.StopUpdateThread();
+			new CreateWindow();
+		}
+		catch( e )
+		{
+			alert( e );
+		}
 	}
 
 	public Update( uRooms:SimpleRoom[] ) : void
@@ -39,6 +45,38 @@ export default class LobbyView
 			{
 				this.MakeRoomCard( room );
 			}
+		}
+	}
+
+	public StartUpdateThread() : void
+	{
+		if( this.updateStopped )
+		{
+			this.updateStopped = false;
+			this.RunUpdate();
+		}
+	}
+
+	public StopUpdateThread() : void
+	{
+		this.updateStopped = true;
+	}
+
+	private async RunUpdate() : Promise<void>
+	{
+		// continually update while not stopped flag set
+		try
+		{
+			do
+			{
+				this.Update( await Globals.roomController.ListRooms() );
+			}
+			while( !this.updateStopped );
+		}
+		catch( e )
+		{
+			alert( e );			
+			this.RunUpdate();
 		}
 	}
 
@@ -91,6 +129,7 @@ export default class LobbyView
 	{
 		try
 		{
+			this.StopUpdateThread();
 			new RoomWindow( await Globals.roomController.JoinRoom( sroom,"" ) );
 		}
 		catch( e )
