@@ -8,7 +8,7 @@ import AnimationAction from "./AnimationAction";
 
 export default class BoardView
 {
-	private readonly beadSpacing : number = 10;
+	private readonly beadSpacing : number = 20;
 	private readonly beadMoveSpeed : number = 175;
 	private readonly beadColors : Color[] = [
 		new Color( 255,0,0,0.7 ),
@@ -162,12 +162,16 @@ export default class BoardView
 
 	private GetBeadOffsets( pot:Pot ) : Point[]
 	{
-		const potElement = this.GetElementFromPot( pot );
+		const jqPot = this.GetElementFromPot( pot );
+		const potOffset = Point.FromOffset( jqPot.offset() as JQuery.Coordinates );
 		const positions : Point[] = [];
-		this.GetElementFromPot( pot ).each(function()
+		jqPot.children().each(function()
 		{
 			// all beads have same width/height, so just compare offsets
-			positions.push( Point.FromOffset( $(this).offset() as JQuery.Coordinates ) );
+			positions.push( 
+				Point.FromOffset( $(this).offset() as JQuery.Coordinates )
+				.Minus( potOffset )
+			);
 		} );
 		return positions;
 	}
