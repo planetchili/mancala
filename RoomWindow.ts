@@ -141,7 +141,8 @@ export default class RoomWindow extends Window
 			if( $(this.checkSelector).prop( "checked" ) == true )
 			{
 				await this.room.Ready();
-				// test for engaged? (or just **wait for polling to handle it**?)
+				// don't usually get to see start message via normal thead pump so...
+				$("#room-overlay div.status").text( "Starting game..." );
 			}
 			else
 			{
