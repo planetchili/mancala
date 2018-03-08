@@ -173,6 +173,11 @@ export default class GameWindow extends Window
 			.css( "cursor","default" );
 	}
 
+	public GetGame() : Game
+	{
+		return this.game;
+	}
+
 	private AddPotListeners() : void
 	{
 		// cache the board state array

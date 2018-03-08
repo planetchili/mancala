@@ -188,15 +188,17 @@ export default class Room
 		return new Game( this.gameId as number,this.id,gameData );
 	}
 
-	public async QuitGame() : Promise<void>
+	// return true if first out of game
+	public async QuitGame() : Promise<boolean>
 	{
 		assert( this.gameId != null,"tried to quit game when null" );
-		await Util.post( "../manserv/RoomController.php",
+		const resp = await Util.post( "../manserv/RoomController.php",
 		{
 			"cmd" : "quitgame",
 			"roomId" : this.id
 		} );
 		await this.Update();
+		return resp.firstOut;
 	}
 
 	public IsEngaged() : boolean

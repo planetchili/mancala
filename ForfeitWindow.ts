@@ -4,6 +4,8 @@ import * as $ from "jquery";
 import SimpleRoom from "./SimpleRoom";
 import RoomWindow from "./RoomWindow";
 import GameWindow from "./GameWindow";
+import WinState from "./WinState";
+import ResultWindow from "./ResultWindow";
 
 
 export default class JoinWindow extends Window
@@ -25,13 +27,17 @@ export default class JoinWindow extends Window
 	{
 		try
 		{
-			await this.roomWindow.GetRoom().QuitGame();
-			this.gameWindow.Destroy();
+			// if first out, we lose quit to room
+			if( !(await this.roomWindow.GetRoom().QuitGame()) )
+			{
+				alert( "Opponent already forfeited; you win!" );
+			}
 
 			this.roomWindow.Render();
 			this.roomWindow.Show();
 			this.roomWindow.StartUpdateThread();
 
+			this.gameWindow.Destroy();
 			this.Destroy();
 		}
 		catch( e )
