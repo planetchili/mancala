@@ -24,8 +24,7 @@ export default class GameWindow extends Window
 		this.updateStopFlag = true;
 		this.threadRunning = false;
 		this.roomWindow = roomWindow;
-	}
-	
+	}	
 
 	public async Init() : Promise<void>
 	{
@@ -37,9 +36,37 @@ export default class GameWindow extends Window
 		}
 		else
 		{
+			this.Render();
 			this.Show();
 			this.boardView = new BoardView( this.game.GetBoardState() );
 			this.StartUpdateThread();
+		}
+	}
+
+	private Render() : void
+	{
+		// reset name tag classes and remove handler
+		$("div#game-wrapper div.name-tag")
+			.attr( "class","name-tag" )
+			.off();
+		// set tag classes and content
+		for( let i = 0; i < 2; i++ )
+		{
+			const jqe = $("#game-name-tag" + i);
+			jqe.text( this.game.GetPlayers()[i].name );
+			if( this.game.GetOurSide().GetIndex() === i )
+			{
+				jqe.addClass( "name-tag-self" );
+				// add handler for forfeit screen
+			}
+			else
+			{
+				jqe.addClass( "name-tag-opponent" );
+			}
+			if( this.game.GetActiveSide().GetIndex() === i )
+			{
+				jqe.addClass( "name-tag-hilighted" );
+			}
 		}
 	}
 
@@ -81,6 +108,7 @@ export default class GameWindow extends Window
 				const actions = await this.game.Update();
 				if( actions.length != 0 )
 				{
+					this.Render();
 					await this.boardView.ReplayAnimation( actions );
 					const board_state = this.game.GetBoardState();
 					assert( this.boardView.ToArray().every( 
@@ -145,6 +173,7 @@ export default class GameWindow extends Window
 			assert( this.boardView.ToArray().every( (pot,i) => pot === board_state[i] ),
 				"view don't match board updated from server"
 			);
+			this.Render();
 			this.StartUpdateThread();
 		}
 		catch( e )
@@ -167,6 +196,7 @@ export default class GameWindow extends Window
 	public Destroy() : void
 	{
 		this.RemovePotListeners();
+		$("div#game-wrapper div.name-tag").off();
 		this.Hide();
 	}
 }
