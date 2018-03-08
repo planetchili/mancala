@@ -27,8 +27,11 @@ export default class JoinWindow extends Window
 		{
 			await this.roomWindow.GetRoom().QuitGame();
 			this.gameWindow.Destroy();
+
+			this.roomWindow.Render();
 			this.roomWindow.Show();
 			this.roomWindow.StartUpdateThread();
+
 			this.Destroy();
 		}
 		catch( e )
@@ -40,8 +43,7 @@ export default class JoinWindow extends Window
 	public OnClose() : void
 	{
 		this.Destroy();
-		this.gameWindow.Show()
-		this.gameWindow.StartUpdateThread();
+		this.gameWindow.Resume();
 	}
 
 	public Show() : void

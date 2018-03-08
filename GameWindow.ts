@@ -73,9 +73,28 @@ export default class GameWindow extends Window
 
 	private async OnForfeit() : Promise<void>
 	{
-		await this.StopUpdateThread();
-		this.Hide();
+		await this.Pause();
 		new ForfeitWindow( this,this.roomWindow );
+	}
+
+	public async Pause() : Promise<void>
+	{
+		this.Hide();
+		this.RemovePotListeners();
+		await this.StopUpdateThread();
+	}
+
+	public Resume() : void
+	{
+		this.Show();
+		if( this.game.GetActiveSide().equals( this.game.GetOurSide() ) )
+		{
+			this.AddPotListeners();
+		}
+		else
+		{
+			this.StartUpdateThread();
+		}
 	}
 
 	public StartUpdateThread()

@@ -86,9 +86,10 @@ export default class ResultWindow extends Window
 		try
 		{
 			await this.roomWindow.GetRoom().QuitGame();
+			
 			this.roomWindow.Render();
-			this.roomWindow.StartUpdateThread();
 			this.roomWindow.Show();
+			this.roomWindow.StartUpdateThread();
 
 			this.Destroy();
 		}
