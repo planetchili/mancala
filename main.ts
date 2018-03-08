@@ -12,6 +12,7 @@ $(document).ready(() =>
 	$("#join-overlay").hide();
 	$("#game-overlay").hide();
 	$("#result-overlay").hide();
+	$("#forfeit-overlay").hide();
 
 	Globals.Init();
 

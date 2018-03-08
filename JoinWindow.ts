@@ -4,7 +4,6 @@ import * as $ from "jquery";
 import SimpleRoom from "./SimpleRoom";
 import RoomWindow from "./RoomWindow";
 
-// TODO: add close button
 export default class JoinWindow extends Window
 {
 	private sroom : SimpleRoom;

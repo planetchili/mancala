@@ -9,6 +9,7 @@ import Board from "./Board";
 import RoomWindow from "./RoomWindow";
 import WinState from "./WinState";
 import ResultWindow from "./ResultWindow";
+import ForfeitWindow from "./ForfeitWindow";
 
 export default class GameWindow extends Window
 {
@@ -57,7 +58,7 @@ export default class GameWindow extends Window
 			if( this.game.GetOurSide().GetIndex() === i )
 			{
 				jqe.addClass( "name-tag-self" );
-				// add handler for forfeit screen
+				$("div#game-wrapper div.name-tag").click( () => this.OnForfeit() );
 			}
 			else
 			{
@@ -70,7 +71,14 @@ export default class GameWindow extends Window
 		}
 	}
 
-	private StartUpdateThread()
+	private async OnForfeit() : Promise<void>
+	{
+		await this.StopUpdateThread();
+		this.Hide();
+		new ForfeitWindow( this,this.roomWindow );
+	}
+
+	public StartUpdateThread()
 	{
 		if( this.updateStopFlag )
 		{
