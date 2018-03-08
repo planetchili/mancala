@@ -142,7 +142,10 @@ export default class RoomWindow extends Window
 			{
 				await this.room.Ready();
 				// don't usually get to see start message via normal thead pump so...
-				$("#room-overlay div.status").text( "Starting game..." );
+				if( this.room.IsReadyToEngage() )
+				{
+					$("#room-overlay div.status").text( "Starting game..." );
+				}
 			}
 			else
 			{
