@@ -66,24 +66,49 @@ export default class Game
 	}
 
 	// returns sequence and promise for result state from server
-	public DoMove( move:Pot ) : { seq:AnimationAction[],promise:Promise<void> }
+	public DoMove( move:Pot ) : { seq:AnimationAction[],promise:Promise<boolean> }
 	{
 		// make sure that pot side is our side is active side
 		assert( this.ourSide.equals( this.activeSide ),"domove not our turn" );
 		assert( move.GetSide().equals( this.ourSide ),"domove taking from enemy pot" );
-		// send command non-blocking, update game after response comes in
-		const promise = Util.post( "../manserv/GameController.php",
+
+		// async lambda for 1) checking if game has ended (via forfeit) and 2) if not, executing move
+		// returns false if game has ended due to forfeit
+		const checkAndDoMove = async () =>
 		{
-			"cmd" : "move",
-			"pot" : move.GetIndex(),
-			"gameId" : this.id
-		} )
-		.then( ( result:any ) =>
-		{
-			this.WriteUpdate( result.state );
-		} );
+			// check if game has ended via forfeit			
+			const update = await Util.post( "../manserv/GameController.php",
+			{
+				"cmd" : "update",
+				"turn" : this.turn,
+				"gameId" : this.id,
+				"winState" : this.winState,
+				"roomId" : this.roomId
+			} );
+			if( !update.upToDate && update.state.winState !== WinState.InProgress )
+			{
+				this.turn = update.state.turn;
+				this.winState = update.state.winState;
+				this.opponentPresent = update.state.opponentPresent;
+				this.board = new Board( update.state.board );
+				this.activeSide = new Side( update.state.activeSide );
+				return false;
+			}
+			else
+			{
+				// send command non-blocking, update game after response comes in
+				const result_move = await Util.post( "../manserv/GameController.php",
+				{
+					"cmd" : "move",
+					"pot" : move.GetIndex(),
+					"gameId" : this.id
+				} );
+				this.WriteUpdate( result_move.state );
+				return true;
+			}
+		};
 		// return promise and result data
-		return { seq: this.board.DoMove( move,this.activeSide ).seq,promise: promise };
+		return { seq: this.board.DoMove( move,this.activeSide ).seq,promise: checkAndDoMove() };
 	}
 
 	private WriteUpdate( state:any ) : void

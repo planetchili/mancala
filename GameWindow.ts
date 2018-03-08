@@ -195,13 +195,22 @@ export default class GameWindow extends Window
 			this.RemovePotListeners();
 			const result = this.game.DoMove( BoardView.GetPotFromElement( $(event.currentTarget) ) );
 			await this.boardView.ReplayAnimation( result.seq );
-			await result.promise;
-			const board_state = this.game.GetBoardState();
-			assert( this.boardView.ToArray().every( (pot,i) => pot === board_state[i] ),
-				"view don't match board updated from server"
-			);
-			this.Render();
-			this.StartUpdateThread();
+			const success = await result.promise;
+			if( success )
+			{
+				const board_state = this.game.GetBoardState();
+				assert( this.boardView.ToArray().every( (pot,i) => pot === board_state[i] ),
+					"view don't match board updated from server"
+				);
+				this.Render();
+				this.StartUpdateThread();
+			}
+			else
+			{				
+				new ResultWindow( this.roomWindow,this.game );
+				this.updateStopFlag = true;
+				this.Destroy();
+			}
 		}
 		catch( e )
 		{
