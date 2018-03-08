@@ -7,6 +7,8 @@ import Game from "./Game";
 import * as assert from "assert";
 import Board from "./Board";
 import RoomWindow from "./RoomWindow";
+import WinState from "./WinState";
+import ResultWindow from "./ResultWindow";
 
 export default class GameWindow extends Window
 {
@@ -23,13 +25,22 @@ export default class GameWindow extends Window
 		this.threadRunning = false;
 		this.roomWindow = roomWindow;
 	}
+	
 
 	public async Init() : Promise<void>
 	{
 		this.game = await this.roomWindow.GetRoom().GetGame();
-		this.Show();
-		this.boardView = new BoardView( this.game.GetBoardState() );
-		this.StartUpdateThread();
+		if( this.game.GetWinState() !== WinState.InProgress )
+		{
+			new ResultWindow( this.roomWindow,this.game );
+			this.Destroy();
+		}
+		else
+		{
+			this.Show();
+			this.boardView = new BoardView( this.game.GetBoardState() );
+			this.StartUpdateThread();
+		}
 	}
 
 	private StartUpdateThread()
@@ -77,7 +88,13 @@ export default class GameWindow extends Window
 						"view don't match board updated from server"
 					);
 				}
-				if( this.game.GetActiveSide().equals( this.game.GetOurSide() ) )
+				if( this.game.GetWinState() !== WinState.InProgress )
+				{
+					new ResultWindow( this.roomWindow,this.game );
+					this.updateStopFlag = true;
+					this.Destroy();
+				}
+				else if( this.game.GetActiveSide().equals( this.game.GetOurSide() ) )
 				{
 					this.AddPotListeners();
 					this.updateStopFlag = true;
@@ -149,8 +166,7 @@ export default class GameWindow extends Window
 
 	public Destroy() : void
 	{
-		// $("#leave-button").off();
-		// $("#room-overlay input").off();
+		this.RemovePotListeners();
 		this.Hide();
 	}
 }

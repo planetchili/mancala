@@ -32,6 +32,11 @@ export default class Game
 		this.players = gameData.players;
 	}
 
+	public GetWinState() : WinState
+	{
+		return this.winState;
+	}
+
 	public GetOurSide() : Side
 	{
 		return this.ourSide;
@@ -45,6 +50,19 @@ export default class Game
 	public GetBoardState() : number[]
 	{
 		return this.board.ToArray();
+	}
+
+	public GetPlayers() : { name:string,id:number }[]
+	{
+		return this.players;
+	}
+
+	public GetScores() : number[]
+	{
+		return [
+			this.board.GetPot( Pot.FromSideOffset( Side.Top(),6 ) ),
+			this.board.GetPot( Pot.FromSideOffset( Side.Bottom(),6 ) ),
+		];
 	}
 
 	// returns sequence and promise for result state from server

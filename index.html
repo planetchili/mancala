@@ -17,38 +17,11 @@
     </header>
 
     <div id="lobby-body">
-        <!--
-        <div class="room-card">
-            <h3>Dick Plumpers</h3>
-            <div class="player-wrap">
-                <p>chili</p>
-                <button>JOIN</button>
-            </div>
-            <p class="status">Waiting for second player</p>
-        </div>
-        <div class="room-card">
-            <h3>Dick Plumpers</h3>
-            <div class="player-wrap">
-                <p>chili</p>
-                <p>spaknyChig</p>
-            </div>
-            <p class="status">Idle</p>
-        </div>
-        <div class="room-card"></div>
-        -->
     </div>
 
     <div id="spawn-create-button">+</div>
 
-<!--
-    <form>
-        <input type="text" id="login_name" value="chili"><br>
-        <input type="text" id="login_password" value="chilipass"><br>
-        <input type="button" value="Do Test" id="dotestbtn">
-    </form>
-
-    <button id="login-open-button">Click me</button>
--->
+    
 
     <div class="overlay" id="login-overlay">
         <div class="popup">
@@ -65,6 +38,7 @@
 
     <div class="overlay" id="join-overlay">
         <div class="popup">
+            <div class="close">X</div>
             <h3>Joining Room "spunkm0ney"</h3>
             <label for="join-password">Password</label><br>
             <input type="password" id="join-password"><br>
@@ -77,6 +51,7 @@
 
     <div class="overlay" id="create-overlay">
         <div class="popup">
+            <div class="close">X</div>
             <h3>Creating Room</h3>
             <label for="create-name">Room Name</label><br>
             <input type="text" id="create-name"><br>
@@ -112,6 +87,28 @@
             </div>
             <div class="center-wrap">
                 <button type="button" id="leave-button" class="main">LEAVE</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="overlay" id="result-overlay">
+        <div class="popup">
+            <h2>Game Over</h2>
+            <div class="player-wrap">
+                <div class="player" id="result-overlay-player0">
+                    <p class="username">chili</p>
+                    <p class="score">Score: 69</p>
+                    <p class="result">Lose</p>
+                </div>
+                <div class="player" id="result-overlay-player1">
+                    <p class="username">mom</p>
+                    <p class="score">Score: 420</p>
+                    <p class="result">Win</p>
+                </div>
+            </div>
+            <div class="center-wrap">
+                <button type="button" id="back-button" class="main">LEAVE</button>
             </div>
         </div>
     </div>

@@ -35,15 +35,17 @@ export default class RoomWindow extends Window
 		}
 	}
 
-	private Render() : void
+	// TODO: better way of showing ready change after quitgame than call render direct?
+	public Render() : void
 	{
 		$("#room-overlay h3")
 			.empty()
 			.append( "Room: [" + this.room.GetName() + "]" );
 		
-		// remove old handers
-		$("#room-overlay-player0 input").off();
-		$("#room-overlay-player1 input").off();
+		// remove old handers and enable by default
+		$("#room-overlay input")
+			.off()
+			.prop( "disabled",false );
 		
 		// TODO: DRY!!
 
@@ -96,7 +98,15 @@ export default class RoomWindow extends Window
 				this.checkSelector = "#room-overlay-player1 input";
 				$(this.checkSelector).change( () => this.OnReady() );
 			}
-		}		
+		}
+
+		// don't allow user to use checkbox if game is still engaged
+		if( this.room.IsEngaged() )
+		{
+			$("#room-overlay input")
+				.off()
+				.prop( "disabled",true );
+		}
 	}
 
 	private async OnReady() : Promise<void>
@@ -119,7 +129,7 @@ export default class RoomWindow extends Window
 		}
 	}
 
-	private StartUpdateThread()
+	public StartUpdateThread()
 	{
 		if( this.updateStopFlag )
 		{
@@ -128,7 +138,7 @@ export default class RoomWindow extends Window
 		}
 	}
 
-	private async StopUpdateThread() : Promise<void>
+	public async StopUpdateThread() : Promise<void>
 	{
 		this.updateStopFlag = true;
 		// this will poll every 80ms to check for thread death
@@ -143,7 +153,7 @@ export default class RoomWindow extends Window
 				setTimeout( () => thisfunc( resolve,thisfunc ),80 );
 			}
 		};
-		await new Promise<void>( (resolve) => func( resolve,func ) );
+		await new Promise<void>( resolve => func( resolve,func ) );
 	}
 
 	public GetRoom() : Room

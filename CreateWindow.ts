@@ -3,13 +3,14 @@ import Globals from "./MancalaGlobals";
 import * as $ from "jquery";
 import RoomWindow from "./RoomWindow";
 
-// TODO: add close button
+
 export default class CreateWindow extends Window
 {
 	public constructor()
 	{
 		super();
 		$("#create-button").click( () => this.OnCreate() );
+		$("#create-overlay div.close").click( () => this.OnClose() );
 		this.Show();
 	}
 
@@ -37,6 +38,11 @@ export default class CreateWindow extends Window
 		}
 	}
 
+	public OnClose() : void
+	{
+		this.Destroy();
+	}
+
 	public Show() : void
 	{
 		Window._Show( "#create-overlay",this );
@@ -50,6 +56,7 @@ export default class CreateWindow extends Window
 	public Destroy() : void
 	{
 		$("#create-button").off();
+		$("#create-overlay div.close").off();
 		this.Hide();
 	}
 }

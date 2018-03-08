@@ -188,6 +188,17 @@ export default class Room
 		return new Game( this.gameId as number,this.id,gameData );
 	}
 
+	public async QuitGame() : Promise<void>
+	{
+		assert( this.gameId != null,"tried to quit game when null" );
+		await Util.post( "../manserv/RoomController.php",
+		{
+			"cmd" : "quitgame",
+			"roomId" : this.id
+		} );
+		await this.Update();
+	}
+
 	public IsEngaged() : boolean
 	{
 		return this.gameId !== null;

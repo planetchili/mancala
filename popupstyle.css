@@ -67,6 +67,7 @@ div.overlay div.popup div.close
 	right: 10px;
 	cursor: pointer;
 	color: #000;
+	user-select: none;
 }
 
 div.overlay div.popup h3
@@ -77,7 +78,7 @@ div.overlay div.popup h3
 
 /* window-specific styles */
 
-div#room-overlay div.player-wrap
+div.overlay div.player-wrap
 {
 	display: flex;
 	justify-content: space-around;
@@ -85,21 +86,27 @@ div#room-overlay div.player-wrap
 	padding: 0px;
 }
 
-div#room-overlay div.player-wrap div.player
+div.overlay div.player-wrap div.player
 {
 	background-color: skyblue;
 	margin: 5px;
 	padding: 20px;
 }
 
-div#room-overlay div.player-wrap div.player p
+div.overlay div.player-wrap div.player p
 {
 	margin: 2px;
 }
 
-div#room-overlay div.player-wrap div.player h4
+div.overlay div.player-wrap div.player h4
 {
 	margin: 2px;
+}
+
+div.overlay h2
+{
+	margin: 6px 2px 12px 2px;
+	text-align: center;
 }
 
 div#room-overlay div.player-wrap div.player input[type=checkbox]

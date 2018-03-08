@@ -1,8 +1,10 @@
 enum WinState
 {
-	InProgress,
+	InProgress = 1,
 	TopWins,
 	BottomWins,
-	Tie
+	Tie,
+	TopForfeits,
+	BottomForfeits
 }
 export default WinState;

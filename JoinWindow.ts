@@ -14,6 +14,7 @@ export default class JoinWindow extends Window
 		super();
 		this.sroom = sroom;
 		$("#join-button").click( () => this.OnJoin() );
+		$("#join-overlay div.close").click( () => this.OnClose() );
 		this.Show();
 	}
 
@@ -34,6 +35,11 @@ export default class JoinWindow extends Window
 		}
 	}
 
+	public OnClose() : void
+	{
+		this.Destroy();
+	}
+
 	public Show() : void
 	{
 		Window._Show( "#join-overlay",this );
@@ -47,6 +53,7 @@ export default class JoinWindow extends Window
 	public Destroy() : void
 	{
 		$("#join-button").off();
+		$("#join-overlay div.close").off();
 		this.Hide();
 	}
 }

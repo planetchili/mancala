@@ -11,6 +11,7 @@ $(document).ready(() =>
 	$("#create-overlay").hide();
 	$("#join-overlay").hide();
 	$("#game-overlay").hide();
+	$("#result-overlay").hide();
 
 	Globals.Init();
 
