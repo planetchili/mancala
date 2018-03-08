@@ -107,6 +107,31 @@ export default class RoomWindow extends Window
 				.off()
 				.prop( "disabled",true );
 		}
+
+		// set status
+		let status : string;
+		// hack to discriminate starting game from after leave game, also see below
+		if( this.room.IsEngaged() && !this.room.IsReadyToEngage() )
+		{
+			status = "Game over, waiting for player to return to room";
+		}
+		else
+		{
+			if( this.room.GetPlayerCount() === 1 )
+			{
+				status = "Waiting for second player";
+			}
+			// hack to discriminate starting game from after leave game, also see above
+			else if( this.room.IsReadyToEngage() )
+			{
+				status = "Starting game...";
+			}
+			else
+			{
+				status = "Waiting for both players to ready up";
+			}
+		}
+		$("#room-overlay div.status").text( status );
 	}
 
 	private async OnReady() : Promise<void>

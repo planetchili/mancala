@@ -103,6 +103,15 @@ div.overlay div.player-wrap div.player h4
 	margin: 2px;
 }
 
+div#room-overlay div.status
+{
+	margin: 6px 0px 6px 0px;
+	width: 100%;
+	padding: 3px;
+	background-color: lightpink;
+	text-align: center;
+}
+
 div.overlay h2
 {
 	margin: 6px 2px 12px 2px;
