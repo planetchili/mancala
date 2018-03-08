@@ -214,7 +214,8 @@ export default class RoomWindow extends Window
 		}
 		catch( e )
 		{
-			alert( e );			
+			// TODO: this gets hit because sometimes game is not yet created at server side
+			// when the GameWindow.Init tries to get it
 			this.RunUpdate();
 		}
 		this.threadRunning = false;
