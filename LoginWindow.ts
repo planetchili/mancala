@@ -22,6 +22,12 @@ export default class LoginWindow extends Window
 				$("#login-password").val() as string
 			);
 
+			// set the account widget with our user info
+			Globals.accountWidget.SetUser(
+				Globals.userCtrl.GetUserName(),
+				Globals.userCtrl.GetUserId()
+			);
+
 			// check if we are already in a room
 			const room = await Globals.roomController.GetRoomIfJoined();
 			if( room !== null )

@@ -10,14 +10,23 @@ export default class LobbyView
 {
 	private rooms : SimpleRoom[];
 	private updateStopped : boolean;
+	private threadRunning : boolean;
 
 	public constructor()
 	{
 		this.rooms = [];
 		this.updateStopped = true;
+		this.threadRunning = false;
 
 		// + button bottom right handler set
 		$("#spawn-create-button").click( () => this.OnCreate() );
+	}
+
+	public async StopAndClear() : Promise<void>
+	{
+		await this.StopUpdateThread();
+		this.rooms = [];
+		$("#lobby-body").empty();
 	}
 
 	private OnCreate() : void
@@ -58,13 +67,27 @@ export default class LobbyView
 		}
 	}
 
-	public StopUpdateThread() : void
+	public async StopUpdateThread() : Promise<void>
 	{
 		this.updateStopped = true;
+		// this will poll every 80ms to check for thread death
+		const func = (resolve,thisfunc) =>
+		{
+			if( !this.threadRunning )
+			{
+				resolve();
+			}
+			else
+			{
+				setTimeout( () => thisfunc( resolve,thisfunc ),80 );
+			}
+		};
+		await new Promise<void>( (resolve) => func( resolve,func ) );
 	}
 
 	private async RunUpdate() : Promise<void>
 	{
+		this.threadRunning = true;
 		// continually update while not stopped flag set
 		try
 		{
@@ -79,6 +102,7 @@ export default class LobbyView
 			alert( e );			
 			this.RunUpdate();
 		}
+		this.threadRunning = false;
 	}
 
 	private MakeRoomCard( sroom:SimpleRoom ) : void

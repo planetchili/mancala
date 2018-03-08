@@ -3,6 +3,7 @@ import * as $ from "jquery";
 import Room from "./Room";
 import Window from "./Window";
 import GameWindow from "./GameWindow";
+import WinState from "./WinState";
 
 export default class RoomWindow extends Window
 {
@@ -23,7 +24,7 @@ export default class RoomWindow extends Window
 
 	public async Init() : Promise<void>
 	{
-		if( this.room.IsEngaged() )
+		if( this.room.IsEngaged() && this.room.GetSelf().IsReady() )
 		{
 			await new GameWindow( this ).Init();
 		}

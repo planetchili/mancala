@@ -1,6 +1,7 @@
 import * as $ from "jquery";
 import Globals from "./MancalaGlobals";
 import LoginWindow from "./LoginWindow";
+import AccountWidget from "./AccountWidget";
 
 
 $(document).ready(() =>
