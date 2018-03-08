@@ -55,3 +55,38 @@
 	width: 25px;
 	height: 25px;
 }
+
+#game-wrapper
+{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#game-wrapper .name-tag
+{
+  margin: 28px;
+  padding: 12px;
+  border-radius: 18px;
+  font-size: 28px;
+  color: white;
+  user-select: none;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+#game-wrapper .name-tag-opponent
+{
+  background-color: red;
+}
+
+#game-wrapper .name-tag-self
+{
+  background-color: green;
+  cursor: pointer;
+}
+
+#game-wrapper .name-tag-hilighted
+{
+  border: 4px solid blue;
+}
