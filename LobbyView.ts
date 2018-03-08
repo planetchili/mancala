@@ -123,13 +123,13 @@ export default class LobbyView
 
 		const statusGen = function( sroom:SimpleRoom ) : string
 		{
-			if( sroom.playerNames.length === 1 )
-			{
-				return "waiting for second player";
-			}
-			else if( sroom.engaged )
+			if( sroom.engaged )
 			{
 				return "game in progress";
+			}
+			else if( sroom.playerNames.length === 1 )
+			{
+				return "waiting for second player";
 			}
 			else
 			{
