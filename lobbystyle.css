@@ -52,10 +52,17 @@ div.room-card
 	background-color: white;
 	font-family: Verdana, Geneva, Tahoma, sans-serif;
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-	width: 280px;
-	height: 200px;
+	width: 240px;
 	padding: 6px;
 	margin: 24px;
+}
+
+div.room-card p.status
+{
+	text-align: center;
+	background-color: lightpink;
+	padding: 8px;
+	margin: 2px;
 }
 
 div.room-card h3
